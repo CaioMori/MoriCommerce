@@ -6,14 +6,20 @@ import { styles } from './styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
 import { useContext } from 'react'
-import GlobalContext from '../../contexts/global'
 import ThemeContext from '../../contexts/theme'
+import AuthContext from '../../contexts/auth'
 
 export default function Home() {
   const navigation = useNavigation()
-  const context = useContext(GlobalContext)
   const theme = useContext(ThemeContext)
   const style = styles(theme.theme)
+
+  const auth = useContext(AuthContext)
+
+  const handleLogout = () => {
+    auth.logout()
+    navigation.navigate('Login')
+  }
 
   const lastSeen: {
     image: ImageSourcePropType
@@ -25,7 +31,7 @@ export default function Home() {
     <View style={style.container}>
       <StatusBar />
       <View style={style.areaTitle}>
-        <Text style={style.title}>Olá, {context.user.name}</Text>
+        <Text style={style.title}>Olá, {auth.user!.name}</Text>
         <View style={style.areaCart}>
           <TouchableOpacity onPress={() => {}}>
             <MaterialCommunityIcons name='cart' size={30} color='#fff' style={style.cartIcon} />
@@ -35,6 +41,9 @@ export default function Home() {
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Configuration')} style={style.areaIcon}>
             <MaterialCommunityIcons name='cog' size={30} color='#fff' style={style.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout} style={style.areaIcon}>
+            <MaterialCommunityIcons name='logout' size={30} color='#fff' style={style.icon} />
           </TouchableOpacity>
         </View>
       </View>
