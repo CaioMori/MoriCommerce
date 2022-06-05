@@ -13,7 +13,7 @@ module.exports = {
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/no-explicit-any': ['error'],
+        '@typescript-eslint/no-explicit-any': ['off'],
         quotes: [2, 'single'],
         semi: [2, 'never'],
         'comma-dangle': [2, 'only-multiline'],
@@ -26,4 +26,4 @@ module.exports = {
       },
     },
   ],
-}
+};

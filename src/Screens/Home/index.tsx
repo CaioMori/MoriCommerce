@@ -5,9 +5,16 @@ import { products } from './mocks'
 import { styles } from './styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
+import { useContext } from 'react'
+import GlobalContext from '../../contexts/global'
+import ThemeContext from '../../contexts/theme'
 
 export default function Home() {
   const navigation = useNavigation()
+  const context = useContext(GlobalContext)
+  const theme = useContext(ThemeContext)
+  const style = styles(theme.theme)
+
   const lastSeen: {
     image: ImageSourcePropType
     text: string
@@ -15,19 +22,19 @@ export default function Home() {
   }[] = []
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <StatusBar />
-      <View style={styles.areaTitle}>
-        <Text style={styles.title}>Olá, NOME</Text>
-        <View style={styles.areaCart}>
+      <View style={style.areaTitle}>
+        <Text style={style.title}>Olá, {context.user.name}</Text>
+        <View style={style.areaCart}>
           <TouchableOpacity onPress={() => {}}>
-            <MaterialCommunityIcons name='cart' size={30} color='#fff' style={styles.cartIcon} />
+            <MaterialCommunityIcons name='cart' size={30} color='#fff' style={style.cartIcon} />
           </TouchableOpacity>
-          <View style={styles.areaCartQuantity}>
-            <Text style={styles.cartQuantity}>0</Text>
+          <View style={style.areaCartQuantity}>
+            <Text style={style.cartQuantity}>0</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.areaIcon}>
-            <MaterialCommunityIcons name='cog' size={30} color='#fff' style={styles.icon} />
+          <TouchableOpacity onPress={() => navigation.navigate('Configuration')} style={style.areaIcon}>
+            <MaterialCommunityIcons name='cog' size={30} color='#fff' style={style.icon} />
           </TouchableOpacity>
         </View>
       </View>
@@ -36,24 +43,24 @@ export default function Home() {
         data={products}
         keyExtractor={item => item.text}
         renderItem={({ item }) => <Product item={item} add={true} />}
-        style={styles.lista}
+        style={style.lista}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View>
             {lastSeen.length > 0 && (
-              <View style={styles.lastSeen}>
-                <Text style={styles.lastSeenTitle}>Últimos vistos</Text>
+              <View style={style.lastSeen}>
+                <Text style={style.lastSeenTitle}>Últimos vistos</Text>
                 <FlatList
                   data={lastSeen}
                   keyExtractor={item => item.text}
                   renderItem={({ item }) => <Product item={item} add={false} />}
-                  style={styles.lista}
+                  style={style.lista}
                   horizontal
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
             )}
-            <Text style={[styles.title, styles.subTitle]}>Produtos</Text>
+            <Text style={[style.title, style.subTitle]}>Produtos</Text>
           </View>
         )}
       />
